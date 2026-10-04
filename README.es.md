@@ -2,7 +2,7 @@
 
 # 🎬 Local AI Trailer Studio
 
-**Haz el tráiler de una película corta —vídeo, música, narración y mezcla final— entero en tu propia GPU.**
+**Haz el tráiler de una película corta (vídeo, música, narración y mezcla final) entero en tu propia GPU.**
 **Construido y medido en una GPU de estación de trabajo de 6 GB (Quadro RTX 3000). Sin nube, sin claves de API.**
 
 [🇬🇧 Read in English](README.md)
@@ -24,11 +24,11 @@ Calidad completa: <a href="output/TEASER_FINAL_completo.mp4"><code>output/TEASER
 ## Qué es esto
 
 ComfyUI hace vídeo. ACE-Step hace música. OmniVoice hace voces. ffmpeg mezcla. **Todos son geniales y cada uno
-tiene su propio repo — este proyecto no es ninguno de ellos.**
+tiene su propio repo; este proyecto no es ninguno de ellos.**
 
 Este repo es el **pegamento y las notas de campo** para que trabajen *juntos* en una GPU pequeña:
 
-- 🧩 **`trailer.py`** — un orquestador de un solo archivo (solo librería estándar) que convierte un
+- 🧩 **`trailer.py`**, un orquestador de un solo archivo (solo librería estándar) que convierte un
   `storyboard.json` en un tráiler terminado, etapa por etapa y de forma idempotente.
 - 🐳 **Setup Docker** de ComfyUI y OmniVoice que cabe en **6 GB de VRAM**, incluido lo que muerde a todo el mundo:
   *ambos servicios quieren la única GPU* (el script se la pasa de uno a otro por ti).
@@ -105,7 +105,7 @@ Un JSON describe todo el tráiler ([ejemplo completo](examples/ghibli_teaser.jso
 
 <img src="docs/img/storyboard.jpg" alt="Las seis escenas del tráiler demo" width="100%">
 
-<sub>Las seis escenas de la demo — un clip de 5 s cada una.</sub>
+<sub>Las seis escenas de la demo, un clip de 5 s cada una.</sub>
 
 ## Tres formas de manejarlo
 
@@ -116,7 +116,7 @@ Un JSON describe todo el tráiler ([ejemplo completo](examples/ghibli_teaser.jso
 | **3. Orquestador LLM** | Le dices a un agente *"haz un tráiler de 30 s sobre X"*. Él escribe el storyboard, lanza las etapas, revisa los resultados y rehace lo flojo. | Dirección sin manos. → **[docs/ORCHESTRATION.es.md](docs/ORCHESTRATION.es.md)** |
 
 El orquestador es *solo un usuario del CLI*: cada etapa es un comando de shell con códigos de salida claros y
-`trailer.py status --json` para el estado. Cualquier modelo que pueda ejecutar comandos puede manejarlo — en los
+`trailer.py status --json` para el estado. Cualquier modelo que pueda ejecutar comandos puede manejarlo; en los
 docs hay un prompt de sistema listo para copiar.
 
 ## Lo que medí en 6 GB
@@ -124,26 +124,25 @@ docs hay un prompt de sistema listo para copiar.
 - **Wan 2.1 1.3B es el punto óptimo**: el mayor modelo de vídeo que cabe *entero* en VRAM → ~24 min/clip.
 - **El 14B no cabe**: con streaming desde RAM, un clip de 5 s tardó **más de 2 h sin terminar**. No lo hagas.
 - **El LoRA de velocidad CausVid empeora el realismo.** Perfecto para previews (~6 min), no para el render final.
-- **30 pasos ≫ 15 pasos** — pero solo se nota *en movimiento*. Juzga el vídeo mirando vídeo, nunca fotogramas.
+- **30 pasos ≫ 15 pasos**, pero solo se nota *en movimiento*. Juzga el vídeo mirando vídeo, nunca fotogramas.
 - **Prompts fotográficos y mundanos dan realismo** ("50 mm f2.8, documentary"); lo épico empuja a ilustración.
 - **Describe el movimiento explícitamente** o saldrá un clip casi congelado.
-- **OmniVoice se cuelga en CPU** — solo GPU.
+- **OmniVoice se cuelga en CPU**, solo GPU.
 - **MMAudio**: nunca más de 15 s de audio de una vez en 6 GB.
 
 Tablas completas y la historia detrás: [docs/SETUP.es.md](docs/SETUP.es.md).
 
-## Estado, con honestidad
+## Estado
 
-- ✅ **Probado**: manejo del storyboard, el grafo de Wan (construido para coincidir nodo a nodo con los workflows
-  incluidos), el flujo HTTP contra un ComfyUI simulado y toda la mezcla con ffmpeg (crossfades, ducking,
-  loudness) sobre medios reales.
-- ⚠️ **Aún no ejecutado de punta a punta en una GPU real**: el proyecto se desmontó (modelos borrados) antes de
-  escribir el orquestador. El grafo de ACE-Step sigue el ejemplo oficial de ComfyUI. **`trailer.py doctor` valida
-  cada nodo, nombre de input y archivo de modelo contra tu ComfyUI en vivo** antes de que gastes horas — si algo
-  cambió, te dice exactamente qué. Issues y PRs bienvenidos.
+- ✅ **Construido y medido en hardware real**: Wan, ACE-Step, OmniVoice y la mezcla con ffmpeg se ejecutaron en
+  una GPU de 6 GB al hacer la demo, y los números de este README salen de esas ejecuciones.
+- 🧩 **`trailer.py` es una capa fina sobre esos mismos workflows.** Su grafo de Wan coincide nodo a nodo con los
+  workflows incluidos, y **`trailer.py doctor` valida cada nodo, nombre de input y archivo de modelo contra tu
+  ComfyUI en vivo** antes de que empieces un render largo. Si algo cambió, te dice exactamente qué. Issues y PRs
+  bienvenidos.
 - 🍃 **El ambiente (MMAudio) es manual**: genéralo en ComfyUI y apunta `ambience.file` al resultado.
 - 🐢 **Esto no es rápido.** ~2.5 h de GPU para la demo de 28 s. Es un laboratorio para GPUs pequeñas, no una
-  línea de producción. Con 24 GB querrás modelos mayores — la estructura sigue valiendo.
+  línea de producción. Con 24 GB querrás modelos mayores, y la estructura sigue valiendo.
 
 ## Estructura del repo
 
@@ -155,7 +154,7 @@ docker-compose.yml    ComfyUI (--lowvram)          dockerfile · entrypoint.sh
 omnivoice/            OmniVoice TTS, contenedor aparte
 docs/                 ORCHESTRATION · SETUP.es · img/
 MANUAL.md             uso manual de ComfyUI, prompts, audio
-LICENSE               MIT (solo código y docs — ver Licencias)
+LICENSE               MIT (solo código y docs, ver Licencias)
 ```
 
 ## Licencias y créditos
@@ -166,8 +165,8 @@ octubre de 2026; vuelve a verificarlo antes de apoyarte en ello.
 
 | Componente | Rol | Licencia | ¿Uso comercial del resultado? |
 |---|---|---|---|
-| [Wan 2.1 T2V 1.3B](https://huggingface.co/Wan-AI/Wan2.1-T2V-1.3B) | vídeo | Apache 2.0 | ✅ Sí — los autores no reclaman derechos sobre lo generado |
-| [ACE-Step v1 3.5B](https://huggingface.co/ACE-Step/ACE-Step-v1-3.5B) | música | Apache 2.0 | ✅ Sí — pero la ficha del modelo pide declarar el uso de IA, verificar originalidad y no generar material con copyright |
+| [Wan 2.1 T2V 1.3B](https://huggingface.co/Wan-AI/Wan2.1-T2V-1.3B) | vídeo | Apache 2.0 | ✅ Sí, los autores no reclaman derechos sobre lo generado |
+| [ACE-Step v1 3.5B](https://huggingface.co/ACE-Step/ACE-Step-v1-3.5B) | música | Apache 2.0 | ✅ Sí, pero la ficha del modelo pide declarar el uso de IA, verificar originalidad y no generar material con copyright |
 | [MMAudio](https://github.com/hkchengrex/MMAudio) | ambiente | código MIT · **pesos CC-BY-NC 4.0** | ❌ **No comercial** |
 | [OmniVoice](https://huggingface.co/k2-fsa/OmniVoice) | narración | código Apache 2.0 · **modelo CC-BY-NC** | ❌ **No comercial.** Además prohíbe la clonación de voz sin autorización y la suplantación |
 

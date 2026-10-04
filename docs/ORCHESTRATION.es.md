@@ -4,7 +4,7 @@
 
 `trailer.py` es aburrido a propósito: comandos sin estado, archivos en disco, códigos de salida claros. Eso lo
 convierte en una buena **herramienta para un agente**. El agente es el *director*; ComfyUI, OmniVoice y ffmpeg son
-el *equipo*; la GPU es la *única silla del plató* — solo puede sentarse uno a la vez.
+el *equipo*; la GPU es la *única silla del plató*; solo puede sentarse uno a la vez.
 
 ```
         tú ── "tráiler de 30 s sobre un farero"
@@ -45,9 +45,9 @@ framework de agentes open source… No necesita **ninguna integración especial*
 
 ## Bucle recomendado para el agente
 
-1. `doctor` — si falla, parar y reportar. No improvisar alrededor de modelos que faltan.
+1. `doctor`: si falla, parar y reportar. No improvisar alrededor de modelos que faltan.
 2. Escribir el storyboard (copiar [`examples/ghibli_teaser.json`](../examples/ghibli_teaser.json)).
-3. `plan` — decir al humano el tiempo de GPU y **preguntar antes de lanzar un render de varias horas**.
+3. `plan`: decir al humano el tiempo de GPU y **preguntar antes de lanzar un render de varias horas**.
 4. `video --preview` en las escenas dudosas. Revisarlas (ver *Revisar resultados*), corregir prompts.
 5. `video` (calidad final), `music`, `voice`, `mix`.
 6. Revisar `final.mp4` y rehacer solo lo flojo: `video --scene s03 --force`, luego `mix --force`.
@@ -71,7 +71,7 @@ Salen de pruebas medidas ([detalle](SETUP.es.md)):
 
 ## Revisar resultados (cuando el modelo no puede ver vídeo)
 
-Extrae fotogramas y míralos — pero recuerda que **15 vs 30 pasos solo se distingue en movimiento**: usa los
+Extrae fotogramas y míralos, pero recuerda que **15 vs 30 pasos solo se distingue en movimiento**: usa los
 fotogramas para detectar errores de composición o estilo, no de calidad temporal:
 
 ```bash
@@ -100,7 +100,7 @@ una sonoridad integrada cercana a −16 LUFS.
 
 ## A mano (expertos)
 
-Cada etapa tiene su equivalente manual — el script solo automatiza:
+Cada etapa tiene su equivalente manual; el script solo automatiza:
 
 | Etapa | Equivalente manual |
 |---|---|

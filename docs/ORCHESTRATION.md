@@ -4,7 +4,7 @@
 
 `trailer.py` is deliberately boring: stateless commands, files on disk, clear exit codes. That makes it a good
 **tool for an agent**. The agent is the *director*; ComfyUI, OmniVoice and ffmpeg are the *crew*; the GPU is the
-*one chair on set* — only one person can sit on it at a time.
+*one chair on set*; only one person can sit on it at a time.
 
 ```
         you ── "30 s trailer about a lighthouse keeper"
@@ -19,7 +19,7 @@
 ```
 
 Any model that can run shell commands and read files works: Claude Code, a GPT agent with a terminal tool,
-an open-source agent framework… The model needs **no special integration** — it just runs `python trailer.py …`.
+an open-source agent framework… The model needs **no special integration**: it just runs `python trailer.py …`.
 
 ---
 
@@ -45,9 +45,9 @@ an open-source agent framework… The model needs **no special integration** —
 
 ## Recommended loop for the agent
 
-1. `doctor` — stop and report if it fails. Don't improvise around missing models.
+1. `doctor`: stop and report if it fails. Don't improvise around missing models.
 2. Write the storyboard (copy [`examples/ghibli_teaser.json`](../examples/ghibli_teaser.json)).
-3. `plan` — tell the human the GPU time and **ask before launching a multi-hour render**.
+3. `plan`: tell the human the GPU time and **ask before launching a multi-hour render**.
 4. `video --preview` for scenes you're unsure about. Look at them (see *Reviewing results*), fix prompts.
 5. `video` (final quality), `music`, `voice`, `mix`.
 6. Review `final.mp4`, redo only the weak scenes: `video --scene s03 --force`, then `mix --force`.
@@ -57,7 +57,7 @@ an open-source agent framework… The model needs **no special integration** —
 These come from measured runs ([details](SETUP.es.md)):
 
 - **Realism → mundane photographic language**: `50mm f2.8`, `documentary`, `visible skin pores`, `overcast`.
-  Avoid `cinematic`, `epic`, `golden hour` — they push towards illustration.
+  Avoid `cinematic`, `epic`, `golden hour`; they push towards illustration.
 - **Animation → flip the negative prompt** (remove `anime, cartoon`, add `photorealistic, live action`) and open
   the prompt with the style (`Hand-drawn 2D anime animation…`).
 - **Describe the motion**: active verbs and things that move by themselves (wind, water, clouds, rain, mist).
@@ -71,7 +71,7 @@ These come from measured runs ([details](SETUP.es.md)):
 
 ## Reviewing results (when the model can't watch video)
 
-Extract frames and look at them — but remember **15 vs 30 steps only differs in motion**, so use frames to
+Extract frames and look at them, but remember **15 vs 30 steps only differs in motion**, so use frames to
 catch composition/style errors, not temporal quality:
 
 ```bash
@@ -89,18 +89,18 @@ report integrated loudness close to −16 LUFS.
 > Rules:
 > 1. Run `python trailer.py doctor` before anything else. If it fails, report the problem and stop.
 > 2. Create the storyboard in `examples/` or a new folder. Follow the prompt-writing rules in the docs.
-> 3. Run `plan` and tell me the estimated GPU time. **Do not start `video`, `voice` or `run` without my OK** —
+> 3. Run `plan` and tell me the estimated GPU time. **Do not start `video`, `voice` or `run` without my OK**:
 >    they take hours of the only GPU.
 > 4. Never run two GPU stages at the same time. `voice` swaps the GPU on its own; do not stop containers manually.
 > 5. Long commands: run in the background and poll `python trailer.py status <storyboard> --json`.
 > 6. Prefer `--preview` to iterate on prompts; only then render final quality.
 > 7. If a command fails, read the error, fix the storyboard or tell me. Do not edit `trailer.py` to work around
->    missing models or VRAM errors — report them.
+>    missing models or VRAM errors, report them.
 > 8. At the end, give me the path to `final.mp4` and a list of what you'd redo and why.
 
 ## Using it by hand (experts)
 
-Every stage maps to something you can do yourself — the script is only automation:
+Every stage maps to something you can do yourself; the script is only automation:
 
 | Stage | Manual equivalent |
 |---|---|
@@ -114,7 +114,7 @@ Mix and match: generate clips by hand, drop them in `clips/` named `sNN.mp4`, an
 
 ## Honest limits
 
-- The agent can't judge motion quality from stills, and clip generation is slow — an agent that re-renders
+- The agent can't judge motion quality from stills, and clip generation is slow; an agent that re-renders
   everything "to be safe" burns hours. Tell it to redo single scenes.
 - `doctor` is your safety net: if ComfyUI or a custom node changes its API, it reports the exact node and input
   rather than failing mid-render.

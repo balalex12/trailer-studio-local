@@ -5,13 +5,13 @@
 
 Setup de **texto a vídeo** fotorrealista para una NVIDIA Quadro RTX 3000 (6 GB
 VRAM), ampliado a una **pipeline completa de producción de tráilers**: vídeo,
-música, ambiente y voz narrada — todo local, en contenedores, sin nada instalado
+música, ambiente y voz narrada, todo local, en contenedores, sin nada instalado
 en Windows.
 
 El modelo de vídeo es **Wan 2.1 T2V 1.3B en fp16**, el mayor modelo de vídeo que
 **cabe entero en 6 GB de VRAM** sin cuantizar ni hacer streaming desde RAM.
 
-> 📖 **[MANUAL.md](../MANUAL.md)** — manual de uso de ComfyUI: interfaz, nodos
+> 📖 **[MANUAL.md](../MANUAL.md)**: manual de uso de ComfyUI: interfaz, nodos
 > explicados uno a uno, guía de prompts, ajustes y solución de problemas.
 >
 
@@ -124,7 +124,7 @@ piel lo aportan los pasos con CFG real, no el LoRA.
 
 **Sobre 15 vs 30 pasos:** comparando *fotogramas sueltos* los 15 pasos parecían
 equivalentes. Viendo los *vídeos en movimiento*, los 30 pasos son claramente
-mejores — la diferencia está en la coherencia temporal, que no se aprecia en una
+mejores, la diferencia está en la coherencia temporal, que no se aprecia en una
 imagen fija. Por eso el workflow de calidad usa 30 pasos. Lección: validar vídeo
 mirando vídeo, no fotogramas.
 
@@ -161,7 +161,7 @@ Si algún día se retoma el 14B, la vía es un **LoRA de destilación**
 
 La pipeline de audio tiene tres fuentes que luego se mezclan con ffmpeg.
 
-### 🎵 Música — ACE-Step (nativo en ComfyUI)
+### 🎵 Música, ACE-Step (nativo en ComfyUI)
 Genera música (y voces cantadas) desde etiquetas de estilo + letra. Workflow
 manual con los nodos `CheckpointLoaderSimple` → `TextEncodeAceStepAudio` →
 `EmptyAceStepLatentAudio` → `KSampler` → `VAEDecodeAudio` → `SaveAudio`.
@@ -169,14 +169,14 @@ manual con los nodos `CheckpointLoaderSimple` → `TextEncodeAceStepAudio` →
   strings, flute, wordless female vocalise, Joe Hisaishi inspired`.
 - 28 s, 50 pasos, cfg 5.0, sampler `euler` → **~80 s** de render.
 
-### 🍃 Ambiente/efectos — MMAudio (custom node)
+### 🍃 Ambiente/efectos, MMAudio (custom node)
 Genera sonido de campo (viento, lluvia, agua) **a partir del vídeo**. Solo hace
 ambiente/foley, **no música ni voces**, y tiende a sonar algo ruidoso.
 - **Límite de VRAM:** no cabe generar más de ~15 s de audio de una vez en 6 GB
   (el latente de audio, no los fotogramas, es lo que satura). Generar por
   tramos y liberar VRAM entre pasadas (`POST /free`).
 
-### 🗣️ Voz narrada — OmniVoice (contenedor aparte)
+### 🗣️ Voz narrada, OmniVoice (contenedor aparte)
 App open-source tipo ElevenLabs, 100% local, con API compatible con OpenAI.
 Corre como **contenedor propio** en `omnivoice/docker-compose.yml`.
 
@@ -224,6 +224,6 @@ Las tres capas se combinan con ffmpeg (disponible dentro del contenedor
 - Aviso no fatal en logs: `You need pytorch with cu130 or higher`. Es la ruta
   CUDA optimizada opcional; funciona igual con cu121.
 - **Dos servicios, una GPU:** `comfyui` (:8188) y `omnivoice` (:3900) comparten
-  la única RTX 3000. No generan a la vez — para OmniVoice se para ComfyUI.
+  la única RTX 3000. No generan a la vez; para OmniVoice se para ComfyUI.
 - Los resultados se guardan en `output/`. **Ojo:** esa carpeta se limpia entre
-  pruebas — mueve lo que quieras conservar a otra carpeta.
+  pruebas, mueve lo que quieras conservar a otra carpeta.

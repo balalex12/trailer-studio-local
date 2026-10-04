@@ -1,4 +1,4 @@
-# Manual de ComfyUI — este proyecto
+# Manual de ComfyUI, este proyecto
 
 Manual práctico para generar video con **Wan 2.1 1.3B** en una Quadro RTX 3000
 (6 GB). No es genérico: describe exactamente los nodos y ajustes de este setup.
@@ -77,7 +77,7 @@ Menú lateral **Workflows** → verás:
 
 Orden de izquierda a derecha:
 
-### `UNETLoader` — el modelo de video
+### `UNETLoader`, el modelo de video
 Carga `wan2.1_t2v_1.3B_fp16.safetensors`. Es el que "sabe" hacer video.
 `weight_dtype` déjalo en `default`.
 
@@ -85,23 +85,23 @@ Carga `wan2.1_t2v_1.3B_fp16.safetensors`. Es el que "sabe" hacer video.
 Aplica el LoRA CausVid, que permite generar en muchos menos pasos.
 `strength_model` 0.3. **Subirlo satura los colores y aplasta el detalle.**
 
-### `ModelSamplingSD3` — `shift`
+### `ModelSamplingSD3`, `shift`
 Controla la distribución del ruido. **8.0** para Wan. Tocarlo sin criterio
 rompe el resultado; déjalo quieto.
 
-### `CLIPLoaderGGUF` — el text encoder
+### `CLIPLoaderGGUF`, el text encoder
 Carga `umt5-xxl-encoder-Q5_K_M.gguf`, tipo `wan`. Convierte tu texto en algo que
 el modelo entiende. **Corre en CPU**, y esa es la razón de que todo esto quepa
 en 6 GB: no gasta VRAM.
 
-### `CLIPTextEncode` (verde) — prompt positivo
+### `CLIPTextEncode` (verde), prompt positivo
 **Aquí escribes lo que quieres.** Ver la guía de prompts abajo.
 
-### `CLIPTextEncode` (rojo) — prompt negativo
+### `CLIPTextEncode` (rojo), prompt negativo
 Lo que NO quieres. **Importante:** solo tiene efecto si `cfg` > 1.0. En el
 workflow de preview (cfg 1.0) se ignora por completo.
 
-### `EmptyHunyuanLatentVideo` — tamaño y duración
+### `EmptyHunyuanLatentVideo`, tamaño y duración
 | Campo | Valor | Nota |
 |---|---|---|
 | `width` × `height` | 832 × 480 | Resolución nativa de Wan 1.3B |
@@ -110,7 +110,7 @@ workflow de preview (cfg 1.0) se ignora por completo.
 
 Duración = `length` ÷ 16 fps. Con 81 → 5.06 s.
 
-### `KSampler` — el motor
+### `KSampler`, el motor
 | Campo | Valor | Qué hace |
 |---|---|---|
 | `seed` | cualquier número | Misma semilla = misma escena |
@@ -124,7 +124,7 @@ Duración = `length` ÷ 16 fps. Con 81 → 5.06 s.
 ### `VAEDecode` + `VAELoader`
 Convierten el resultado interno (latente) en imágenes visibles.
 
-### `VHS_VideoCombine` — la salida
+### `VHS_VideoCombine`, la salida
 Junta los fotogramas en `.mp4`.
 - `frame_rate`: **16** (Wan se entrenó a 16 fps; cambiarlo acelera o ralentiza)
 - `filename_prefix`: el nombre del archivo
@@ -199,8 +199,8 @@ film grain, bokeh, gritty
 | Más resolución | 832×480 → 960×544 | +40% tiempo; **puede degradar** (el modelo se entrenó a 480p) |
 | Menos VRAM | 832×480 → 640×384 | Menos detalle |
 | Iterar rápido | Workflow de preview | Pierde realismo |
-| Otra variación | Cambiar `seed` | — |
-| Repetir exacto | Misma `seed` + mismo prompt | — |
+| Otra variación | Cambiar `seed` | - |
+| Repetir exacto | Misma `seed` + mismo prompt | - |
 
 **Regla de la VRAM:** el consumo escala con `ancho × alto × frames`. Con la
 configuración por defecto vas a 5.3 GB de 6 GB. **Queda muy poco margen**, así
@@ -264,7 +264,7 @@ docker compose restart
 
 ---
 
-## 9. Límites de este equipo — lo que NO va a funcionar
+## 9. Límites de este equipo, lo que NO va a funcionar
 
 Comprobado con mediciones, no supuesto:
 
@@ -292,7 +292,7 @@ ejemplo `output/_buenos/`.
 Además de vídeo, el proyecto genera las tres capas de audio de un tráiler. Todas
 se mezclan al final con ffmpeg (que está dentro del contenedor `comfyui`).
 
-### 🎵 Música — ACE-Step (dentro de ComfyUI)
+### 🎵 Música, ACE-Step (dentro de ComfyUI)
 Genera música instrumental (y voces cantadas) desde etiquetas de estilo + letra.
 - Nodos: `CheckpointLoaderSimple` (ace_step) → `TextEncodeAceStepAudio` (tags +
   lyrics) → `EmptyAceStepLatentAudio` (segundos) → `KSampler` (50 pasos, cfg 5,
@@ -301,7 +301,7 @@ Genera música instrumental (y voces cantadas) desde etiquetas de estilo + letra
   flute, wordless female vocalise, Joe Hisaishi inspired`.
 - ~80 s por pieza de 28 s.
 
-### 🍃 Ambiente — MMAudio (dentro de ComfyUI)
+### 🍃 Ambiente, MMAudio (dentro de ComfyUI)
 Sonido de campo (viento, lluvia, agua) generado desde el propio vídeo. **Solo
 ambiente, no música ni voces.**
 - **No generes más de ~15 s de audio de una vez** (revienta la VRAM de 6 GB).
@@ -310,7 +310,7 @@ ambiente, no música ni voces.**
   Invoke-RestMethod -Uri "http://localhost:8188/free" -Method Post -Body '{"unload_models":true,"free_memory":true}' -ContentType "application/json"
   ```
 
-### 🗣️ Voz narrada — OmniVoice (contenedor aparte, http://localhost:3900)
+### 🗣️ Voz narrada, OmniVoice (contenedor aparte, http://localhost:3900)
 TTS local en español. Es un **servicio Docker independiente** en la carpeta
 `omnivoice/`.
 
