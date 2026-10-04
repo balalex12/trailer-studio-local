@@ -1,0 +1,28 @@
+# Normalizacion de saltos de linea.
+# Por defecto git decide, pero forzamos LF en los scripts que corren dentro
+# de contenedores Linux: si Windows los convierte a CRLF, el contenedor falla
+# al arrancar (bash no interpreta bien el script).
+
+# Scripts de shell: SIEMPRE LF
+*.sh            text eol=lf
+entrypoint.sh   text eol=lf
+
+# Archivos que corren/leen en Linux: LF
+Dockerfile      text eol=lf
+dockerfile      text eol=lf
+*.yml           text eol=lf
+*.yaml          text eol=lf
+
+# Config y docs: normalizados a LF para consistencia entre Sos
+*.json          text eol=lf
+*.md            text eol=lf
+.gitignore      text eol=lf
+.gitattributes  text eol=lf
+
+# Binarios: nunca tocar saltos de linea
+*.mp4           binary
+*.flac          binary
+*.wav           binary
+*.png           binary
+*.safetensors   binary
+*.gguf          binary

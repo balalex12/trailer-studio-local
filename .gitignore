@@ -1,0 +1,35 @@
+# === Pesos de modelos (se descargan de HuggingFace, ver README) ===
+models/*
+!models/.gitkeep
+
+# === Custom nodes (se clonan con git, ver README) ===
+custom_nodes/*
+!custom_nodes/.gitkeep
+
+# === Resultados generados ===
+output/*
+!output/.gitkeep
+
+# === Datos de OmniVoice (volumenes Docker, no deberian estar aqui de todos modos) ===
+omnivoice/omnivoice_data/
+omnivoice/*.db*
+
+# === Temporales / sistema ===
+*.tmp
+*.log
+*.bak
+*.part
+__pycache__/
+*.pyc
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# === Scratch / pruebas ===
+*.sh.tmp
+scratchpad/
+
+# === Config local de herramientas (no es parte del proyecto) ===
+.claude/
+.codex/
+.cursor/

@@ -1,0 +1,25 @@
+services:
+  comfyui:
+    build: .
+    container_name: comfyui
+    ports:
+      - "8188:8188"
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    volumes:
+      - ./models:/app/ComfyUI/models
+      - ./custom_nodes:/app/ComfyUI/custom_nodes
+      - ./output:/app/ComfyUI/output
+      # Los workflows aparecen dentro de la UI (menu Workflows)
+      - ./workflows:/app/ComfyUI/user/default/workflows
+    restart: unless-stopped
+    # --lowvram : offload de capas a RAM (clave para 6 GB de VRAM)
+    command: ["--lowvram"]

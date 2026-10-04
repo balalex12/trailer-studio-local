@@ -1,0 +1,38 @@
+{
+  "name": "ghibli_teaser",
+  "_comment": "Storyboard de ejemplo: 6 escenas de paisaje estilo anime. Los prompts son ilustrativos (los originales del teaser no se conservaron).",
+
+  "style": {
+    "prompt_prefix": "Hand-drawn 2D anime animation in the style of a classic Japanese animated film.",
+    "prompt_suffix": "Soft hand-painted watercolour backgrounds, warm nostalgic colour palette, traditional cel animation aesthetic, lush detailed painted scenery, peaceful atmosphere, 2D animated feature film still.",
+    "negative": "photorealistic, photograph, realistic, photo, live action, 3d render, cgi, unreal engine, film grain, lens flare, shallow depth of field, bokeh, harsh shadows, dark, gritty, desaturated, ugly, deformed, text, watermark, logo, subtitles, low quality, worst quality, jpeg artifacts, blurry, static, motionless frame"
+  },
+
+  "video": { "seed": 7788 },
+
+  "scenes": [
+    { "id": "s01", "prompt": "Dawn over a wide green valley. Thin mist drifts slowly between rolling hills while the sun rises behind soft pastel clouds. The camera glides slowly forward over the valley." },
+    { "id": "s02", "prompt": "A meadow of tall green grass and pink wildflowers sways continuously in a strong breeze under a bright blue sky. Cherry blossom petals swirl through the air. The camera slowly pans across the meadow." },
+    { "id": "s03", "prompt": "Enormous dark storm clouds roll over green hills, billowing and churning. Wind bends the distant trees. The camera slowly tilts up towards the clouds." },
+    { "id": "s04", "prompt": "Heavy rain falls through a dense forest. Raindrops splash into puddles, leaves tremble and drip, mist rises from the ground. The camera moves slowly between the trees." },
+    { "id": "s05", "prompt": "The storm breaks. Golden rays of sunlight pierce giant white clouds and shine over wet green hills, last raindrops falling and sparkling. The camera slowly pushes forward." },
+    { "id": "s06", "prompt": "Sunset over a quiet river winding through a grassy valley. The water flows and glitters orange and pink, tall reeds sway in the wind. The camera follows the river downstream." }
+  ],
+
+  "music": {
+    "tags": "studio ghibli, orchestral, gentle piano, strings, flute, wordless female vocalise, Joe Hisaishi inspired",
+    "lyrics": "[instrumental]",
+    "seconds": 28,
+    "seed": 42
+  },
+
+  "narration": {
+    "language": "es",
+    "lines": [
+      { "start": 2.0,  "text": "Hay lugares que solo existen cuando cierras los ojos." },
+      { "start": 14.0, "text": "Y despues de la tormenta, siempre vuelve la luz." }
+    ]
+  },
+
+  "mix": { "crossfade": 0.5 }
+}
