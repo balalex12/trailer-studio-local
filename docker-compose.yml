@@ -3,7 +3,7 @@ services:
     build: .
     container_name: comfyui
     ports:
-      - "8188:8188"
+      - "127.0.0.1:8188:8188"
     environment:
       - NVIDIA_VISIBLE_DEVICES=all
       - NVIDIA_DRIVER_CAPABILITIES=compute,utility

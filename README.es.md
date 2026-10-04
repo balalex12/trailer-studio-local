@@ -71,7 +71,7 @@ git clone https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite custom_nodes/C
 
 # 2. modelos (~14 GB, +5 GB si añades MMAudio) → URLs y carpetas en docs/SETUP.es.md
 # 3. arrancar ComfyUI (Docker Desktop con soporte GPU NVIDIA)
-docker compose up -d --build            # http://localhost:8188
+docker compose up -d --build            # http://localhost:8188 (solo local, 127.0.0.1)
 
 # 4. comprobar que todo está en su sitio y ver el plan
 python trailer.py doctor
